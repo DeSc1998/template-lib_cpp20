@@ -7,9 +7,10 @@ PACKAGES =
 LIBS = 
 
 # compiler and flags
+INCLUDE_PATH = --include-directory=src/lib/
 CXX = clang++
-CXX_FLAGS = -Weverything -pedantic -std=c++20 -fdiagnostics-format=msvc \
-	-Wno-c++98-compat
+CXX_FLAGS = -Weverything -Wpedantic -Wshadow -std=c++20 -fdiagnostics-format=msvc \
+	-Wno-c++98-compat -Wno-c++98-compat-pedantic $(INCLUDE_PATH)
 CXX_FLAGS_RELEASE = -O3 $(CXX_FLAGS)
 CXX_FLAGS_DEBUG = -O0 -D DEBUG -fcxx-exceptions $(CXX_FLAGS)
 
@@ -64,5 +65,6 @@ analyze : $(SRC)
 analyze_d : $(SRC)
 	$(CXX) --analyze $(CXX_FLAGS_DEBUG) $^
 
+# testing make operations
 get :
 	echo $(notdir $(CURDIR))
