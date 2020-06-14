@@ -44,7 +44,7 @@ namespace ds {
       }
 
       while ( value != 0 ) {
-        digits.emplace_back( value % Base );
+        digits.emplace_back( static_cast< size_t >( value ) % Base );
         value /= Base;
       }
     }
@@ -69,7 +69,7 @@ namespace ds {
       auto set = symbols.substr( 0, Base );
 
       for ( auto c : str )
-        digits.emplace( begin( digits ), set.find( c ) );
+        digits.emplace( begin( digits ), set.find( static_cast< wchar_t >( c ) ) );
 
       distribute( *this );
     }
@@ -91,7 +91,7 @@ namespace ds {
       }
 
       while ( value != 0 ) {
-        digits.emplace_back( value % Base );
+        digits.emplace_back( static_cast< size_t >( value ) % Base );
         value /= Base;
       }
     }
@@ -121,12 +121,14 @@ namespace ds {
     integer& operator=( long long value ) {
       if ( value < 0 ) {
         value      = -value;
-        is_negativ = !is_negativ;
+        is_negativ = true;
+      } else {
+        is_negativ = false;
       }
 
       digits.clear();
       do {
-        digits.emplace_back( value % Base );
+        digits.emplace_back( static_cast< size_t >( value ) % Base );
         value /= Base;
       } while ( value != 0 );
       distribute( *this );
@@ -160,26 +162,27 @@ namespace ds {
     // implicit cast
     template < size_t B >
     operator integer< B >() const {
-      using std::exp;
-      using std::log;
-
       integer< B > out;
       out.digits.reserve( digits.capacity() );
       out.digits.resize( digits.size() );
 
-      const double base_factor = log( (double)Base / (double)B );
+      const double base_from = static_cast< double >( Base );
+      const double base_to   = static_cast< double >( B );
+
+      const double base_factor = std::log( base_from / base_to );
 
       auto converter = [index = digits.size() - 1, base_factor,
                         rest  = 0.0]( size_t a_i ) mutable -> size_t {
         // a_i * Base^i = b_i * B^i
         // => b_i = a_i * (Base / B)^i
         //    b_i = a_i * exp(i * ln(Base / B))
-        // NOTE: b_i is likly not an integer
+        // NOTE: b_i is likely not an integer
 
-        auto b_i = exp( index-- * base_factor + log( (double)a_i ) );
+        auto b_i = std::exp( static_cast< double >( index-- ) * base_factor +
+                             std::log( static_cast< double >( a_i ) ) );
 
-        size_t new_value = ( size_t )( b_i + rest * B );
-        rest             = b_i + rest * B - new_value;
+        size_t new_value = static_cast< size_t >( b_i + rest * B );
+        rest             = b_i + rest * B - static_cast< double >( new_value );
 
         if ( index + 1 == 0 && rest >= 0.5 ) {
           ++new_value;
@@ -233,7 +236,7 @@ namespace ds {
       out.reserve( digits.capacity() );
 
       for ( auto n : digits )
-        out.insert( std::begin( out ), (char)symbols[n] );
+        out.insert( std::begin( out ), static_cast< char >( symbols[n] ) );
 
       while ( out[0] == '0' && out.size() > 1 )
         out.erase( 0, 1 );
@@ -303,7 +306,9 @@ namespace ds {
         new_carry = 0;
         if ( tmp.digits[i] == 0 && i == size - 1 ) {
           tmp.is_negativ = !tmp.is_negativ;
-        } else if ( (long long)tmp.digits[i] - (long long)( n.digits[i] + old_carry ) < 0 ) {
+        } else if ( static_cast< long long >( tmp.digits[i] ) -
+                      static_cast< long long >( n.digits[i] + old_carry ) <
+                    0 ) {
           ( tmp.digits[i] += Base ) -= ( n.digits[i] + old_carry );
           new_carry++;
         } else {
@@ -352,6 +357,10 @@ namespace ds {
     friend class integer;
   };
 
+  // deduction guide
+  template < std::integral I >
+  integer( I ) -> integer< 10 >;
+
   // numder types provided with a default set of symbols
   using Int = integer<>;
 
@@ -372,8 +381,9 @@ namespace ds {
 
   template < size_t Base, typename T >
   std::basic_ostream< T >& operator<<( std::basic_ostream< T >& str, const integer< Base >& n ) {
-    auto s = static_cast< std::basic_string< T > >( n );
-    return str.write( s.c_str(), s.size() );
+    using size_type = std::streamsize;
+    auto s          = static_cast< std::basic_string< T > >( n );
+    return str.write( s.c_str(), static_cast< size_type >( s.size() ) );
   }
 
 } // namespace ds

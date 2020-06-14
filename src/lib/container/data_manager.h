@@ -129,7 +129,7 @@ namespace ds {
       return last;
     }
 
-    constexpr size_t size() const noexcept { return end() - begin(); }
+    constexpr size_t size() const noexcept { return static_cast< size_t >( end() - begin() ); }
 
     constexpr iterator begin() const noexcept { return elems[0].begin(); }
 

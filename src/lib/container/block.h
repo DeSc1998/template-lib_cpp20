@@ -178,9 +178,9 @@ namespace ds {
     }
 
     constexpr difference_type operator-( const block_iterator& other ) const noexcept {
-      const auto offset_dist = offset - other.offset;
+      const auto offset_dist = static_cast< difference_type >( offset - other.offset );
       const auto block_diff  = block_pos - other.block_pos;
-      const auto block_dist  = block_diff * size;
+      const auto block_dist  = block_diff * static_cast< difference_type >( size );
 
       return offset_dist + block_dist;
     }
@@ -306,9 +306,9 @@ namespace ds {
     }
 
     constexpr difference_type operator-( const reverse_block_iterator& other ) const noexcept {
-      const auto offset_dist = offset - other.offset;
+      const auto offset_dist = static_cast< difference_type >( offset - other.offset );
       const auto block_diff  = other.block_pos - block_pos;
-      const auto block_dist  = block_diff * size;
+      const auto block_dist  = block_diff * static_cast< difference_type >( size );
 
       return offset_dist + block_dist;
     }

@@ -8,6 +8,8 @@ namespace test {
 
   void vector();
 
+  void output_range();
+  
   void iterator();
 
   void integer();

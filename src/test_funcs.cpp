@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <vector>
 
 #include "container/list.h"
 #include "container/stack.h"
@@ -165,6 +166,18 @@ namespace test {
     std::cout << vec;
   }
 
+  void output_range() {
+    ds::vector< int > vec;
+    ds::stack< int > st;
+
+    for ( int i = 1; i < 128; ++i ) {
+      vec.push_back( i );
+      st.push( i );
+    }
+
+    std::cout << vec << '\n' << st << '\n';
+  }
+
   void iterator() {
     ds::vector< int > v;
 
@@ -188,13 +201,13 @@ namespace test {
 
     std::cout << " i <32> = " << i << '\n';
     std::cout << " j <10> = " << j << '\n';
-    std::cout << " j <32> = " << (ds::integer< 32 >)j << '\n';
+    std::cout << " j <32> = " << static_cast< ds::integer< 32 > >( j ) << '\n';
     std::cout << " k <16> = " << k << '\n';
     std::cout << " str_test <10> = " << str_test << '\n' << '\n';
 
     // TODO: converiton from large to lower bases is currently brocken
-    std::cout << " l <64 -> 10> = " << (ds::Int)l << '\n';
-    std::cout << " j <10 -> 32> = " << (ds::Int_32)j << '\n';
+    std::cout << " l <64 -> 10> = " << static_cast< ds::Int >( l ) << '\n';
+    std::cout << " j <10 -> 32> = " << static_cast< ds::Int_32 >( j ) << '\n';
     std::cout << " i + j = " << ds::Int( i + j ) << '\n';
     std::cout << " i + j = " << ds::Int( i + j ) << '\n';
     std::cout << " i + j = " << ds::Int( i + j ) << '\n';

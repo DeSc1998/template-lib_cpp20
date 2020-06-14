@@ -1,6 +1,8 @@
 
 #include <iostream>
 
+#include "test_funcs.h"
+
 auto main () -> int {
-  std::cout << "Henlo Cpp20\n";
+  test::output_range();
 }

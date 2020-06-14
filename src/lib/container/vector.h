@@ -87,15 +87,19 @@ namespace ds {
     }
 
     void shift_at( size_t index, long long amount = 1 ) {
+      using diff_type = typename iterator::difference_type;
+
       if ( data[0] != value_type() && amount != 0 ) {
         if ( amount > 0 ) {
-          for ( int i = last - begin(); i > (int)index; i-- )
-            data[i + amount] = std::move( data[i] );
+          for ( diff_type i = last - begin(); i > static_cast< diff_type >( index ); i-- )
+            data[static_cast< size_t >( i + amount )] =
+              std::move( data[static_cast< size_t >( i )] );
 
-          data[index + amount] = std::move( data[index] );
+          data[index + static_cast< size_t >( amount )] = std::move( data[index] );
         } else {
-          for ( int i = index; i < last - begin(); i++ )
-            data[i] = std::move( data[i - amount] );
+          for ( diff_type i = static_cast< diff_type >( index ); i < last - begin(); i++ )
+            data[static_cast< size_t >( i )] =
+              std::move( data[static_cast< size_t >( i - amount )] );
         }
       }
     }
@@ -110,7 +114,9 @@ namespace ds {
     }
 
     void erase( const value_type& val ) {
-      for ( int i = 0; i <= last - begin(); i++ ) {
+      using diff_type = typename iterator::difference_type;
+
+      for ( size_t i = 0; static_cast< diff_type >( i ) <= last - begin(); i++ ) {
         if ( data[i] == val ) {
           shift_at( i, -1 );
           --last;
@@ -121,7 +127,7 @@ namespace ds {
 
     void clear() noexcept { last = data.begin(); }
 
-    size_t size() const noexcept { return last - begin(); }
+    size_t size() const noexcept { return static_cast< size_t >( last - begin() ); }
 
     constexpr iterator begin() noexcept { return data.begin(); }
 
