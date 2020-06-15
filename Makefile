@@ -28,8 +28,8 @@ vpath %.o obj
 # list of source and object files
 DIR = $(subst /,\,$(CURDIR))
 # get sourcefiles via shell (windows)
-FILTERED = $(filter %.cpp,$(filter-out %.cpp~ %.h~,$(subst $(DIR),,$(shell dir src /s /b))))
-SRC = $(notdir $(FILTERED))
+SRC = $(notdir $(filter %.cpp,$(subst $(DIR),,$(shell dir src /s /b))))
+#SRC = $(wildcard *.cpp)
 OBJDIR = obj
 OBJ = $(addprefix $(OBJDIR)/,$(subst .cpp,.o,$(SRC)))
 
@@ -67,4 +67,4 @@ analyze_d : $(SRC)
 
 # testing make operations
 get :
-	echo $(notdir $(CURDIR))
+	echo $(wildcard *.cpp)
