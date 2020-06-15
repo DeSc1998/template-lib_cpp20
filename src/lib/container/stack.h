@@ -64,7 +64,7 @@ namespace ds {
         data[--num_elements] = value_type();
     }
 
-    size_t size() noexcept { return num_elements; }
+    size_t size() const noexcept { return num_elements; }
 
     bool is_empty() const noexcept { return num_elements == 0; }
 

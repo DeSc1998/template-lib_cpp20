@@ -1,20 +1,24 @@
 #pragma once
 
+#include <concepts>
 #include <iostream>
-#include <utility>
 
 namespace ds {
 
-  template < typename R >
+  template < typename R, typename Iter = typename R::iterator >
   concept range = requires( R r ) {
-    { r.begin() };
-    { r.end() };
+    { r.begin() }
+    ->std::same_as< Iter >;
+    { r.end() }
+    ->std::same_as< Iter >;
   };
 
-  template < typename R >
+  template < typename R, typename Iter = typename R::reverse_iterator >
   concept reverse_range = range< R >&& requires( R r ) {
-    { r.rbegin() };
-    { r.rend() };
+    { r.rbegin() }
+    ->std::same_as< Iter >;
+    { r.rend() }
+    ->std::same_as< Iter >;
   };
 
   template < range R >
