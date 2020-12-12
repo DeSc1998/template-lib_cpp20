@@ -3,6 +3,7 @@
 
 #include "test_funcs.h"
 
-auto main () -> int {
+auto main() -> int {
   test::output_range();
+  test::vector();
 }

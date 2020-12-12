@@ -18,6 +18,8 @@ CXX_FLAGS_DEBUG = -O0 -D DEBUG -fcxx-exceptions $(CXX_FLAGS)
 OUTPUT_RELEASE = $(addsuffix .exe,$(PROJECT_NAME))
 OUTPUT_DEBUG = $(addsuffix _debug.exe,$(PROJECT_NAME))
 
+OUTPUT_LINUX = $(PROJECT_NAME)
+
 #  precompiled header (currently unused)
 PCH =
 
@@ -27,8 +29,8 @@ vpath %.o obj
 
 # list of source and object files
 DIR = $(subst /,\,$(CURDIR))
-# get sourcefiles via shell (windows)
-SRC = $(notdir $(filter %.cpp,$(subst $(DIR),,$(shell dir src /s /b))))
+# get sourcefiles via shell
+SRC = $(notdir $(filter %.cpp,$(subst $(DIR),,$(shell ls src))))
 #SRC = $(wildcard *.cpp)
 OBJDIR = obj
 OBJ = $(addprefix $(OBJDIR)/,$(subst .cpp,.o,$(SRC)))
@@ -39,23 +41,33 @@ $(OUTPUT_RELEASE) : $(OBJ)
 $(OUTPUT_DEBUG) : $(SRC)
 	$(CXX) -o $(OUTPUT_DEBUG) $(CXX_FLAGS_DEBUG) $^
 
-obj/%.o : %.cpp
-	$(CXX) -o $@ $(CXX_FLAGS) -c $^
+$(OBJDIR)/%.o : %.cpp $(OBJDIR)
+	$(CXX) -o $@ $(CXX_FLAGS) -c $<
 
 $(OBJDIR) :
 	mkdir $(OBJDIR)
 
 
-.PHONY : clean debug get all analyze analyze_d objdir
+.PHONY : clean debug get all analyze analyze_d objdir linux windows
 
 clean :
-	del $(OUTPUT_RELEASE)
-	del $(OUTPUT_DEBUG)
-	del /q obj
+	 rm -f -r $(OBJDIR)
+	 rm -f $(OUTPUT_RELEASE)
+	 rm -f $(OUTPUT_DEBUG)
 
 debug : $(OUTPUT_DEBUG)
 
 all : $(OBJDIR) $(OUTPUT_RELEASE) $(OUTPUT_DEBUG)
+
+# for ci
+linux : $(SRC)
+	$(CXX) -o $(OUTPUT_LINUX) $(CXX_FLAGS_RELEASE) $^
+	$(CXX) -o $(OUTPUT_LINUX)_debug $(CXX_FLAGS_DEBUG) $^
+
+# for ci
+windows : $(SRC)
+	$(CXX) -o $(OUTPUT_RELEASE) $(CXX_FLAGS_RELEASE) $^
+	$(CXX) -o $(OUTPUT_DEBUG) $(CXX_FLAGS_DEBUG) $^
 
 objdir : $(OBJDIR)
 
@@ -67,4 +79,4 @@ analyze_d : $(SRC)
 
 # testing make operations
 get :
-	echo $(wildcard *.cpp)
+	echo $(wildcard ./**/*.h)

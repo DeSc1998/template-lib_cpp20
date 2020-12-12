@@ -175,7 +175,7 @@ namespace ds {
                         rest  = 0.0]( size_t a_i ) mutable -> size_t {
         // a_i * Base^i = b_i * B^i
         // => b_i = a_i * (Base / B)^i
-        //    b_i = a_i * exp(i * ln(Base / B))
+        // => b_i = a_i * exp(i * ln(Base / B))
         // NOTE: b_i is likely not an integer
 
         auto b_i = std::exp( static_cast< double >( index-- ) * base_factor +
