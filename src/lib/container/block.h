@@ -38,7 +38,7 @@ namespace ds {
     }
 
     block( const block& other ) : elems( std::make_unique< value_type[] >( num_elements ) ) {
-      std::copy( elems.get(), elems.get() + num_elements, elems.get() );
+      std::copy( other.elems.get(), other.elems.get() + num_elements, elems.get() );
     }
 
     block( block&& other ) : elems( std::move( other.elems ) ) { }
