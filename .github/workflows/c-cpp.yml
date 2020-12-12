@@ -25,7 +25,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: checking source files
-        run: ls | ls src
+        run: ls
+        run: ls src
       - name: build
         run: make windows
       - name: testing binary
