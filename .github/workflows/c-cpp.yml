@@ -24,8 +24,9 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-      - name: checking source files
+      - name: checking root
         run: ls
+      - name: checking src
         run: ls src
       - name: build
         run: make windows
