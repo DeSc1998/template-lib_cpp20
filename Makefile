@@ -9,7 +9,7 @@ LIBS =
 # compiler and flags
 INCLUDE_PATH = --include-directory=src/lib/
 CXX = clang++
-CXX_FLAGS = -Weverything -Wpedantic -Wshadow -std=c++20 -fdiagnostics-format=msvc \
+CXX_FLAGS = -Weverything -Wpedantic -Wshadow -std=c++2a -fdiagnostics-format=msvc \
 	-Wno-c++98-compat -Wno-c++98-compat-pedantic $(INCLUDE_PATH)
 CXX_FLAGS_RELEASE = -O3 $(CXX_FLAGS)
 CXX_FLAGS_DEBUG = -O0 -D DEBUG -fcxx-exceptions $(CXX_FLAGS)
