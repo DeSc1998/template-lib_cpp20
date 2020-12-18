@@ -5,7 +5,7 @@
 #include "container/list.h"
 #include "container/stack.h"
 #include "container/vector.h"
-#include "integer.h"
+#include "numbers/integer.h"
 #include "range.h"
 
 #include "test_funcs.h"
