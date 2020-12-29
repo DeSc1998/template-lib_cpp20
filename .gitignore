@@ -33,3 +33,4 @@ obj/
 *.app
 
 Makefile~
+compile_command*

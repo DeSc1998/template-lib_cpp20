@@ -9,7 +9,7 @@ LIBS =
 # compiler and flags
 INCLUDE_PATH = --include-directory=src/lib/
 CXX = clang++
-CXX_FLAGS = -Weverything -Wpedantic -Wshadow -std=c++2a -fdiagnostics-format=msvc \
+CXX_FLAGS = -Weverything -Wpedantic -Wshadow -std=c++20 -fdiagnostics-format=msvc \
 	-Wno-c++98-compat -Wno-c++98-compat-pedantic $(INCLUDE_PATH)
 CXX_FLAGS_RELEASE = -O3 $(CXX_FLAGS)
 CXX_FLAGS_DEBUG = -O0 -D DEBUG -fcxx-exceptions $(CXX_FLAGS)
@@ -48,7 +48,7 @@ $(OBJDIR) :
 	mkdir $(OBJDIR)
 
 
-.PHONY : clean debug get all analyze analyze_d objdir linux windows
+.PHONY : clean release debug get all analyze analyze_d objdir
 
 clean :
 	 rm -f -r $(OBJDIR)
@@ -57,17 +57,9 @@ clean :
 
 debug : $(OUTPUT_DEBUG)
 
+release : $(OUTPUT_RELEASE)
+
 all : $(OBJDIR) $(OUTPUT_RELEASE) $(OUTPUT_DEBUG)
-
-# for ci
-linux : $(SRC)
-	$(CXX) -o $(OUTPUT_LINUX) $(CXX_FLAGS_RELEASE) $^
-	$(CXX) -o $(OUTPUT_LINUX)_debug $(CXX_FLAGS_DEBUG) $^
-
-# for ci
-windows : $(SRC)
-	$(CXX) -o $(OUTPUT_RELEASE) $(CXX_FLAGS_RELEASE) $^
-	$(CXX) -o $(OUTPUT_DEBUG) $(CXX_FLAGS_DEBUG) $^
 
 objdir : $(OBJDIR)
 
