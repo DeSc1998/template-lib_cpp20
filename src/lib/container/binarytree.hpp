@@ -5,7 +5,7 @@
 #include <memory>
 #include <type_traits>
 
-#include "../Nodes/node.h"
+#include "../Nodes/node.hpp"
 
 namespace ds {
   template < typename T >
@@ -20,12 +20,12 @@ namespace ds {
   public:
     binarytree() = default;
 
-    binarytree( const Type& t ) {
+    binarytree( const T& t ) {
       root = std::make_shared< node_type >( t );
       ++num_elem;
     }
 
-    void insert( const Type& t ) {
+    void insert( const T& t ) {
       if ( !root ) {
         root = std::make_shared< node_type >( t );
         ++num_elem;
@@ -34,7 +34,7 @@ namespace ds {
       }
     }
 
-    bool find( const Type& t ) const {
+    bool find( const T& t ) const {
       auto ptr = root;
 
       while ( ptr ) { // ptr != nullptr
@@ -46,7 +46,7 @@ namespace ds {
       return false;
     }
 
-    void remove( const Type& t ) {
+    void remove( const T& t ) {
       // TODO
     }
 
@@ -78,7 +78,7 @@ namespace ds {
       return ptr ? std::max( height( ptr->get_next() ), height( ptr->get_prev() ) ) + 1 : 1;
     }
 
-    void insert_left( const Type& t, std::shared_ptr< node_type >& node ) {
+    void insert_left( const T& t, std::shared_ptr< node_type >& node ) {
       auto&& left = node->prev;
 
       if ( !left ) { // left == nullptr
@@ -89,7 +89,7 @@ namespace ds {
       }
     }
 
-    void insert_right( const Type& t, std::shared_ptr< node_type >& node ) {
+    void insert_right( const T& t, std::shared_ptr< node_type >& node ) {
       auto&& right = node->next;
 
       if ( !right ) { // right == nullptr

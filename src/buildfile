@@ -1,0 +1,10 @@
+
+out_base = ../build/
+
+cxx.woptions = -Wall -Wextra -Wpedentic -Wshadow -Werror
+cxx.coptions += -O3 -I ./src/lib/ -std=c++20
+
+cxx{*} : extention = cpp
+hxx{*} : extention = hpp
+
+exe{"$out_base/$project"} : {cxx hxx}{**} : test = true

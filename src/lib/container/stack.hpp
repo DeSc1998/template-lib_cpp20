@@ -1,6 +1,6 @@
 #pragma once
 
-#include "data_manager.h"
+#include "data_manager.hpp"
 
 namespace ds {
   template < typename T, typename Manager = data_manager< T > >

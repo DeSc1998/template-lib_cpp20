@@ -1,6 +1,6 @@
 #pragma once
 
-#include "stack.h"
+#include "stack.hpp"
 
 namespace ds {
   template < typename T >

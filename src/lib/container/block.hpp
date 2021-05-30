@@ -5,7 +5,7 @@
 #include <iterator>
 #include <memory>
 
-#include "../Types.h"
+#include "../Types.hpp"
 
 namespace ds {
   template < typename T, size_t Block_size = 0x800 >

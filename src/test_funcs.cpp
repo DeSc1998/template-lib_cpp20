@@ -2,13 +2,13 @@
 #include <iostream>
 #include <vector>
 
-#include "container/list.h"
-#include "container/stack.h"
-#include "container/vector.h"
-#include "numbers/integer.h"
-#include "range.h"
+#include "container/list.hpp"
+#include "container/stack.hpp"
+#include "container/vector.hpp"
+#include "numbers/integer.hpp"
+#include "range.hpp"
 
-#include "test_funcs.h"
+#include "test_funcs.hpp"
 
 namespace test {
 
@@ -192,7 +192,7 @@ namespace test {
 
   void integer() {
     ds::integer< 32 > i;
-    ds::integer j       = 10000;
+    ds::integer<> j     = 10000;
     ds::integer< 16 > k = j;
     ds::integer< 64 > l = 200;
     ds::Int str_test( "10912" );

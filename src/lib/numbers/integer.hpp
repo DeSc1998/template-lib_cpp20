@@ -7,8 +7,6 @@
 #include <utility>
 #include <vector>
 
-#include "range.h"
-
 namespace ds {
 
   template < size_t Base = 10 >

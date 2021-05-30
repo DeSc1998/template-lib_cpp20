@@ -1,0 +1,12 @@
+
+
+using in
+using cxx
+
+cxx.std = 20
+
+cxx{*}: extension = cpp
+hxx{*}: extension = h
+
+
+cxx.poptions =+ "-I$src_root" "-I$out_root"

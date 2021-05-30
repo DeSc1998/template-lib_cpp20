@@ -2,8 +2,8 @@
 
 #include <cassert>
 
-#include "../Nodes/node.h"
-#include "block.h"
+#include "../Nodes/node.hpp"
+#include "block.hpp"
 
 namespace ds {
   template < typename T, typename Node = void >

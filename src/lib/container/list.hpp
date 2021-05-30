@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "../Nodes/node.h"
-#include "data_manager.h"
+#include "../Nodes/node.hpp"
+#include "data_manager.hpp"
 
 namespace ds {
   template < typename T, typename Manager = data_manager< T, duo_node< T > > >

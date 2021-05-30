@@ -2,8 +2,8 @@
 
 #include <type_traits>
 
-#include "duo_node.h"
-#include "mono_node.h"
+#include "duo_node.hpp"
+#include "mono_node.hpp"
 
 namespace ds {
   template < typename T >
